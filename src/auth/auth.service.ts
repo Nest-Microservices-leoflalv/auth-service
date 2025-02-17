@@ -1,17 +1,12 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { PrismaClient } from '@prisma/client';
 
 @Injectable()
-export class AuthService {
-  registerUser(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
+export class AuthService extends PrismaClient implements OnModuleInit {
+  readonly #logger = new Logger('AuthService');
 
-  loginUser() {
-    return `This action returns all auth`;
-  }
-
-  verifyToken() {
-    return `This action returns a # auth`;
+  onModuleInit() {
+    this.$connect();
+    this.#logger.log('MongoDB connected');
   }
 }
